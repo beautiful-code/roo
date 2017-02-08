@@ -13,7 +13,7 @@ module Roo
       end
 
       def styles
-        @styles ||= Styles.new(File.join(@dir, 'roo_styles.xml'))
+        @styles ||= styles_file(@dir)
       end
 
       def shared_strings
@@ -26,6 +26,13 @@ module Roo
 
       def base_date
         workbook.base_date
+      end
+
+      private
+      def styles_file(dir)
+        file = File.join(dir, 'roo_styles.xml')
+        FileUtils.touch(file) unless File.exist?(file)
+        Styles.new(file)
       end
     end
   end
